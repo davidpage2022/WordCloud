@@ -1,0 +1,148 @@
+CP1404 / 5632 Programming II
+CP1404 / 5632 Programming II
+TR3 Formal Exams, 2022
+PRACTICE Examination
+College of Science & Engineering
+Examination Duration: 150 minutes
+Reading Time: 15 minutes
+Exam Conditions:
+This is a Restricted Book Exam - you can only bring items listed under Permitted Materials.
+Materials Permitted In The Exam Venue:
+Calculator - Non Programmable
+Dictionary - Bilingual
+Dictionary - English
+Materials To Be Supplied To Students:
+1 x Answer book/s required
+Scanner Sheet - DTES
+Venue ____________________
+Seat Number ________
+Student Number |__|__|__|__|__|__|__|__|
+Family Name _____________________
+First Name _____________________
+CP1404 / 5632 Programming II
+Part A: Multiple Choice Questions
+Please answer this section on the multiple-choice answer sheet.
+Each question has exactly one correct answer and is worth 1 mark.
+What is the output of the following code?
+x = 5
+for i in range(x):
+ x = x + i
+ print(x, end=" ")
+a. 0 1 2 3 4
+b. 5 6 7 8 9
+c. 5 6 8 11 15
+d. None of the above, but it will finish
+e. None of the above; this results in an infinite loop
+Which one of the following is not a valid example of inheritance?
+a. Shirt inherits from Garment
+b. Dog inherits from Mammal
+c. Student inherits from Person
+d. Newspaper inherits from Publication
+e. None of the above. They are all valid examples of inheritance.
+The code below is intended to print the last letter of each word in the sentence on a
+separate line, but it is missing some code.
+s = "This string has words in it"
+words = s.split()
+for i, word in enumerate(words):
+ # missing line
+Which one of the following code fragments will work as the missing code line so the
+code works correctly?
+a. print(word)
+b. print(word[i]
+c. print(words[0]
+d. print(words[word])
+e. None of the above.
+CP1404 / 5632 Programming II
+What is the output of the following code?
+class Arbitrary(object):
+ def __init__(self, data=1):
+ self.data = data
+ def getit(self):
+ return self.data * 2
+class Thing(Arbitrary):
+ def __init__(self, value=3):
+ super().__init__(value * 2)
+a, b = Arbitrary(2), Thing()
+print(a.getit(), b.getit())
+a. 4 12
+b. 4 4
+c. 2 6
+d. 4 6
+e. AttributeError: 'Thing' object has no attribute 'getit'.
+Consider the following code:
+data = [1, 2, 3, 4, 5]
+Which one of the following will cause an error?
+a. x = data.sort()
+b. x = data[-1:0:-1]
+c. x = data[1:4:4]
+d. x = sorted(data)[1:1]
+e. None of the above
+Part B: Short Answer Questions
+Marks for questions in this section are shown in brackets.
+Please answer all of the following questions in the exam answer booklet.
+[2 marks] Write the results of evaluating each of the following individual expressions:
+a. 501 % 2
+b. 1 + 23 // 4
+c. 0 > 0 and 1 < 3
+d. 9 != 9 or 8 <= 8
+CP1404 / 5632 Programming II
+[2 marks] Write the best names you can for each of the following parts of a class that
+represents a “sports team”:
+a. the module (file) name
+b. the class name
+c. a function that sets the team's salary cap
+d. an attribute variable that represents if the team member is playing
+[2 marks] Write the output of the following program:
+text = "O when THE Saints"
+parts = text.lower().split()
+for i, part in enumerate(sorted(parts)):
+ print(part, i)
+[3 marks] Write a Building class that can represent a building and store the
+attributes, name (string) and maximum_occupancy (integer), which can be passed
+in when a new object is made.
+Write a method called will_fit(number) that returns True if the building can fit the
+passed-in number (of people), False otherwise.
+Example: The following client code would create a building object and set result to
+False.
+b = Building("Innovation Complex", 1200)
+result = b.will_fit(1201) # result would be False
+[2 marks] Given a string variable called string, write code to print the letters in the
+string backwards.
+string = "CP1404 is good"
+would print "doog si 4041PC"
+[3 marks] Write the definition for a function called create_dictionary that takes
+two parameters: a list of keys and a list of values, which will be the same length.
+The function should return a dictionary where the keys are the keys from the first
+parameter and the values are from the second. Example of this in action:
+For the following code:
+calories = [75, 65, 6175]
+food = ["Egg", "Apple", "Carrot Cake"]
+print(create_dictionary(food, calories))
+the output would be:
+{'Carrot Cake': 6175, 'Egg': 75, 'Apple': 65}
+CP1404 / 5632 Programming II
+[2 marks] Given the following main code and output, write the missing function
+definition.
+def main():
+ for i in range(5):
+ print(do_thing(i))
+main()
+Output (note that the first line is blank):
+**
+****
+******
+********
+[3 marks] Explain the naming rules, conventions and suggestions for:
+a. constants
+b. lists
+c. functions
+[5 marks] Describe the following terms regarding Git version control:
+a. Commit
+b. Repository
+c. Pull
+d. Push
+e. Branch
+[2 marks] Compare tuples and lists in Python, including what is the same and what
+is different between them.
+Describe the situations where you would choose one of these types over the other.
+END OF EXAMINATION
