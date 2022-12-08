@@ -50,7 +50,7 @@ class WordCloud:
     def _count_word_occurrences(words):
         """Count the number of times a word occurs in a list of words.
         :returns: Dictionary of words to their number of occurrences,
-        sorted from highest to lowest occurrence."""
+        sorted from highest to lowest occurrence, then alphabetical."""
         word_to_count = {}
         for word in words:
             if word in word_to_count:
