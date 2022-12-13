@@ -2,11 +2,6 @@
 import string
 from operator import itemgetter
 
-FILENAME = "text.txt"
-TEXT = """I am i, listen to me roar! The ROAR of a thousand lions, and lion's playthings.
-We are the lolly pop guild and we are here to collect the rent."""
-# EXCLUDED_WORDS = ["the", "a", "i", "to"]
-
 
 class WordCloud:
     """Spatial visualisation for highlighting the most frequently occurring words in text."""
@@ -24,6 +19,12 @@ class WordCloud:
         words = self._extract_words(text)
         self._words = self._filter_words(words, excluded_words, min_length, max_words)
         self.word_to_count = self._count_word_occurrences(self._words)
+
+    @staticmethod
+    def load_text_from_file(filename):
+        """Load text from a file."""
+        with open(filename, encoding="UTF-8") as in_file:
+            return in_file.read()
 
     @staticmethod
     def _extract_words(text):
@@ -62,21 +63,10 @@ class WordCloud:
                     sorted(word_to_count.items(), key=itemgetter(0)),
                     key=itemgetter(1), reverse=True)}
 
+    def render_to_image(self, filename, open_after=False):
+        """Render the word cloud to an image.
 
-def load_text_from_file(filename):
-    """Load text from a file."""
-    with open(filename, encoding="UTF-8") as in_file:
-        return in_file.read()
-
-
-def test_word_cloud():
-    # text = TEXT
-    text = load_text_from_file(FILENAME)
-
-    word_cloud = WordCloud(text, min_length=4, max_words=15)
-    # print(word_cloud._words)
-    print(word_cloud.word_to_count)
-
-
-if __name__ == '__main__':
-    test_word_cloud()
+        :param filename: File path to write the image to.
+        :param open_after: Should we open the image with default image viewer."""
+        print("Rendering...")
+        pass  # TODO: Implement
