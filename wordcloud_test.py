@@ -14,8 +14,9 @@ def test_word_cloud():
     text = WordCloud.load_text_from_file(FILENAME)
 
     word_cloud = WordCloud(text, min_length=4, max_words=15)
-    # print(word_cloud._words)
     print(word_cloud.word_to_count)
+    for word in word_cloud.words:
+        print(word)
 
     word_cloud.render_to_image(filename="world-cloud.png", open_after=True)
 

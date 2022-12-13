@@ -2,6 +2,8 @@
 import string
 from operator import itemgetter
 
+from word import Word
+
 
 class WordCloud:
     """Spatial visualisation for highlighting the most frequently occurring words in text."""
@@ -17,8 +19,13 @@ class WordCloud:
         if excluded_words is None:  # Needed to prevent "mutable default".
             excluded_words = []
         words = self._extract_words(text)
-        self._words = self._filter_words(words, excluded_words, min_length, max_words)
-        self.word_to_count = self._count_word_occurrences(self._words)
+        words = self._filter_words(words, excluded_words, min_length, max_words)
+        self.word_to_count = self._count_word_occurrences(words)
+        self.words = []
+
+        for word in self.word_to_count.keys():
+            self.words.append(
+                Word(text=word, position=(0, 0), angle=0.0, font_size=0.0))
 
     @staticmethod
     def load_text_from_file(filename):
@@ -63,10 +70,16 @@ class WordCloud:
                     sorted(word_to_count.items(), key=itemgetter(0)),
                     key=itemgetter(1), reverse=True)}
 
+    def _place_words(self):
+        """"""
+        print("Placing words...")
+        pass  # TODO: Implement
+
     def render_to_image(self, filename, open_after=False):
         """Render the word cloud to an image.
 
         :param filename: File path to write the image to.
         :param open_after: Should we open the image with default image viewer."""
+        self._place_words()
         print("Rendering...")
         pass  # TODO: Implement
