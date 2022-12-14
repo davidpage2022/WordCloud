@@ -2,6 +2,8 @@
 import string
 from operator import itemgetter
 
+from PIL import Image, ImageShow
+
 from word import Word
 
 
@@ -82,4 +84,8 @@ class WordCloud:
         :param open_after: Should we open the image with default image viewer."""
         self._place_words()
         print("Rendering...")
+
+        image = Image.new("RGBA", (800, 800), "#000000ff")
+        ImageShow.show(image)
+
         pass  # TODO: Implement
