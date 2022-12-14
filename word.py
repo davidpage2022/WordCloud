@@ -1,6 +1,7 @@
 """Word inside a word cloud."""
+import random
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageFont, ImageDraw
 
 
 # TODO: https://stackoverflow.com/questions/45179820/draw-text-on-an-angle-rotated-in-python
@@ -28,7 +29,19 @@ class Word:
 
     def draw_into(self, image):
         """Draw the word into a given image."""
-        pass
+        text_position = (
+            image.size[0] / 2 + random.randint(-200, 200),
+            image.size[1] / 2 + random.randint(-200, 200))
+        font = ImageFont.truetype("arial.ttf", self.font_size)
+
+        # Draw text to mask.
+        mask = Image.new('L', image.size)
+        mask_drawer = ImageDraw.Draw(mask)
+        mask_drawer.text(text_position, self.text, 255, font)
+
+        # Draw into image.
+        color_image = Image.new('RGBA', image.size, "#ffffffff")
+        image.paste(color_image, mask)
 
     def __str__(self):
         return f"{self.text} - {self.position} ({self.angle} degrees) - size: {self.font_size}"

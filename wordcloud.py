@@ -27,7 +27,7 @@ class WordCloud:
 
         for word in self.word_to_count.keys():
             self.words.append(
-                Word(text=word, position=(0, 0), angle=0.0, font_size=0.0))
+                Word(text=word, position=(0, 0), angle=0.0, font_size=32))
 
     @staticmethod
     def load_text_from_file(filename):
@@ -86,6 +86,8 @@ class WordCloud:
         print("Rendering...")
 
         image = Image.new("RGBA", (800, 800), "#000000ff")
+        for word in self.words:
+            word.draw_into(image)
         ImageShow.show(image)
 
         pass  # TODO: Implement
