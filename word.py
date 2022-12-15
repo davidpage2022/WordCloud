@@ -1,14 +1,12 @@
-"""Word inside a word cloud."""
+"""Physical word inside a word cloud."""
 import random
 
 from PIL import Image, ImageFont, ImageDraw
 
 
-# TODO: https://stackoverflow.com/questions/45179820/draw-text-on-an-angle-rotated-in-python
-
-
 class Word:
-    """Represents a physical word inside a WordCloud."""
+    """Represents a physical word inside a WordCloud.
+    A Word has a physical shape and visual representation."""
 
     def __init__(self, text, position, angle, font_size):
         """Construct a word.
@@ -25,7 +23,7 @@ class Word:
 
     def check_is_overlapping(self, other_word) -> bool:
         """Determine if another word overlaps with this word."""
-        pass
+        pass  # TODO
 
     def draw_into(self, image):
         """Draw the word into a given image."""
@@ -42,6 +40,9 @@ class Word:
         # Draw into image.
         color_image = Image.new('RGBA', image.size, "#ffffffff")
         image.paste(color_image, mask)
+
+        # TODO: Add rotation support.
+        # See https://stackoverflow.com/questions/45179820/draw-text-on-an-angle-rotated-in-python
 
     def __str__(self):
         return f"{self.text} - {self.position} ({self.angle} degrees) - size: {self.font_size}"

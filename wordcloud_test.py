@@ -1,24 +1,43 @@
 """Test word cloud tools."""
-from wordcloud import WordCloud
+from PIL import Image, ImageShow
 
-FILENAME = "text.txt"
-TEXT = """I am i, listen to me roar! The ROAR of a thousand lions, and lion's playthings.
-We are the lolly pop guild and we are here to collect the rent."""
+from wordcloud import main
+from word import Word
+
+TEXT = """This is a test test string string string."""
 
 
-# EXCLUDED_WORDS = ["the", "a", "i", "to"]
+def render_to_image(words):
+    """Render the word cloud to an image.
+
+    :param words: List of Words in the word cloud."""
+    image = Image.new("RGBA", (800, 800), "#000000ff")
+    for word in words:
+        word.draw_into(image)
+    ImageShow.show(image)
+
+
+def make_physical_words(word_strings):
+    """Make physical Words for a list of strings.
+
+    :param: List of strings, each representing a word.
+    :return: List of created Words."""
+    words = []
+    for word_string in word_strings:
+        words.append(
+            Word(text=word_string, position=(0, 0), angle=0.0, font_size=32))
+    return words
 
 
 def test_word_cloud():
-    # text = TEXT
-    text = WordCloud.load_text_from_file(FILENAME)
+    word_to_occurrence = main()
+    print(word_to_occurrence)
 
-    word_cloud = WordCloud(text, min_length=4, max_words=15)
-    print(word_cloud.word_to_count)
-    for word in word_cloud.words:
+    words = make_physical_words(word_to_occurrence.keys())
+    for word in words:
         print(word)
 
-    word_cloud.render_to_image(filename="world-cloud.png", open_after=True)
+    render_to_image(words)
 
 
 if __name__ == '__main__':
