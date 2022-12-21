@@ -1,21 +1,45 @@
+import operator
+import random
 import string
 
-TEST_STRING = "This and the this is a very tricky string tricky-string to use in a " \
-              "word &word #word% cloud cloud! cloud."
+FILENAME = "initial_text.txt"
+WORDS_WITH_VALUE = ["word", "cloud", "punctuation"]
 
 
 def main():
-    """Produce word cloud words and test function in use."""
-    word_cloud_words = make_word_cloud_words(TEST_STRING)
-    assert word_cloud_words == {'this': 2, 'very': 1, 'tricky': 1, 'string': 1, 'tricky-string': 1,
-                                'use': 1, 'word': 3, 'cloud': 3}
-    return word_cloud_words
+    """Produce words suitable for processing into a word cloud using random model selection."""
+    raw_text = read_file(FILENAME)
+    processed_list = process_string(raw_text)
+    model_selection = random.randint(1, 4)
+    if model_selection == 1:  # Creates a dictionary based on occurrence of words within list
+        word_to_occurrence = determine_occurrences(processed_list)
+        word_to_occurrence = insert_name(word_to_occurrence, "**OCCURRENCE BASED MODEL**")
+    elif model_selection == 2:  # Creates a dictionary based on value applied to word
+        word_to_occurrence = allocate_values(processed_list)
+        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-VALUES BASED MODEL**")
+    elif model_selection == 3:  # Creates a dictionary based on length of word
+        word_to_occurrence = determine_length(processed_list)
+        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-lENGTH BASED MODEL**")
+    else:  # Creates a dictionary based on alphabetical sorting
+        word_to_occurrence = sort_alphabetically(processed_list)
+        word_to_occurrence = insert_name(word_to_occurrence, "**ALPHABETICAL BASED MODEL**")
+    word_to_occurrence = sort_by_value(word_to_occurrence)
+    return word_to_occurrence
 
 
-def make_word_cloud_words(initial_string):
-    """Turn initial string into words suitable for a word cloud."""
-    lower_case_string = initial_string.lower()
-    raw_words_list = lower_case_string.split()
+def read_file(filename):
+    """Read a text file."""
+    in_file = open(filename, 'r')
+    raw_text = in_file.read()
+    in_file.close()
+    return raw_text
+
+
+def process_string(text_to_process):
+    """Process the initial string to remove unnecessary punctuation and small-sized words."""
+    lower_case_string = text_to_process.lower()
+    split_list = lower_case_string.split()
+    raw_words_list = [word for word in split_list if len(word) >= 3]  # Will remove minor punctuation errors eg ;;
     right_stripped_list = []
     for word in raw_words_list:
         while word[-1] in string.punctuation:
@@ -26,12 +50,61 @@ def make_word_cloud_words(initial_string):
         while word[0] in string.punctuation:
             word = word[1:]
         fully_stripped_list.append(word)
-    long_word_list = [word for word in fully_stripped_list if len(word) >= 3
+    processed_list = [word for word in fully_stripped_list if len(word) >= 3
                       and word != "and" and word != "the"]
+    return processed_list
+
+
+def determine_occurrences(list_data):
+    """Add list to dictionary with value based on occurrence."""
     word_to_occurrence = {}
-    for word in long_word_list:
-        word_to_occurrence[word] = long_word_list.count(word)
+    for word in list_data:
+        word_to_occurrence[word] = list_data.count(word)
     return word_to_occurrence
+
+
+def allocate_values(list_data):
+    """Add list to dictionary with value based on nominated keywords."""
+    word_to_occurrence = {}
+    for word in list_data:
+        word_to_occurrence[word] = 1
+        if word in WORDS_WITH_VALUE:
+            word_to_occurrence[word] = (list_data.count(word) * 5)
+    return word_to_occurrence
+
+
+def determine_length(list_data):
+    """Add list to dictionary with value based on length of word."""
+    word_to_occurrence = {}
+    for word in list_data:
+        word_to_occurrence[word] = len(word)
+    return word_to_occurrence
+
+
+def sort_alphabetically(list_data):
+    """Add list to dictionary with value based on alphabetical order."""
+    word_to_occurrence = {}
+    list_data.sort()
+    for word in list_data:
+        word_to_occurrence[word] = 1
+    count = len(word_to_occurrence.values())
+    for key in word_to_occurrence:
+        word_to_occurrence[key] = count
+        count -= 1
+    return word_to_occurrence
+
+
+def insert_name(dictionary, name):
+    """Insert name of model into dictionary."""
+    maximum_value = (max(dictionary.values()) + 10)
+    dictionary[name] = maximum_value
+    return dictionary
+
+
+def sort_by_value(dictionary):
+    """Sort dictionary by value in descending order."""
+    sorted_dictionary = dict(sorted(dictionary.items(), key=operator.itemgetter(1, 0), reverse=True))
+    return sorted_dictionary
 
 
 main()
