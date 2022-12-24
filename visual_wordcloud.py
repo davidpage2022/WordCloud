@@ -6,7 +6,8 @@ from visual_word import VisualWord
 
 class VisualWordCloud:
     """Visual representation of a word cloud"""
-    MAX_FONT_SIZE = 75
+    MIN_FONT_SIZE = 15
+    MAX_FONT_SIZE = 100
 
     def __init__(self, word_to_occurrence):
         """Construct a visual word cloud.
@@ -43,7 +44,8 @@ class VisualWordCloud:
         """Determine a suitable font size for a word based on the relative weights of word occurrences.
 
         :returns: The font size determined, in pixels."""
-        font_size = int(self.word_to_weight[word] * self.MAX_FONT_SIZE)
+        font_size_range = self.MAX_FONT_SIZE - self.MIN_FONT_SIZE
+        font_size = int(self.MIN_FONT_SIZE + self.word_to_weight[word] * font_size_range)
         return font_size
 
     def render_to_image(self):
