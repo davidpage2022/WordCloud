@@ -5,6 +5,7 @@ from wordcloud import main
 from word import Word
 
 TEXT = """This is a test test string string string."""
+TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 
 
 def render_to_image(words):
@@ -30,7 +31,8 @@ def make_physical_words(word_strings):
 
 
 def test_word_cloud():
-    word_to_occurrence = main()
+    # word_to_occurrence = main()
+    word_to_occurrence = TEST_WORD_TO_OCCURRENCE
     print(word_to_occurrence)
 
     words = make_physical_words(word_to_occurrence.keys())
