@@ -6,23 +6,45 @@ from visual_word import VisualWord
 
 class VisualWordCloud:
     """Visual representation of a word cloud"""
+    MAX_FONT_SIZE = 75
 
     def __init__(self, word_to_occurrence):
         """Construct a visual word cloud.
 
         :param word_to_occurrence: Dictionary of words to their occurrence."""
         self.word_to_occurrence = word_to_occurrence
-        self.visual_words = self.make_words()
+        self.word_to_weight = self._calculate_weights()
+        self.visual_words = self._make_words()
 
-    def make_words(self):
+    def _calculate_weights(self):
+        """Calculate relative weights of words based on their occurrences.
+        The sum of all weights equals 1.
+
+        :returns: Dictionary of words to their weights."""
+        word_to_weight = {}
+        total_word_count = sum(self.word_to_occurrence.values())
+        for word, count in self.word_to_occurrence.items():
+            weight = count / total_word_count
+            word_to_weight[word] = weight
+        return word_to_weight
+
+    def _make_words(self):
         """Create visual word objects and place them in random positions.
 
         :returns: List of created VisualWord objects."""
         visual_words = []
-        for word in self.word_to_occurrence.keys():
+        for word, count in self.word_to_occurrence.items():
             visual_words.append(
-                VisualWord(text=word, position=(0, 0), angle=0.0, font_size=32))
+                VisualWord(text=word, position=(0, 0), angle=0.0,
+                           font_size=self._determine_font_size(word)))
         return visual_words
+
+    def _determine_font_size(self, word):
+        """Determine a suitable font size for a word based on the relative weights of word occurrences.
+
+        :returns: The font size determined, in pixels."""
+        font_size = int(self.word_to_weight[word] * self.MAX_FONT_SIZE)
+        return font_size
 
     def render_to_image(self):
         """Render the word cloud to a temporary image and show it using default system viewer."""
