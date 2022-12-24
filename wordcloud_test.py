@@ -7,8 +7,8 @@ TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 
 
 def test_word_cloud():
-    # word_to_occurrence = main()
-    word_to_occurrence = TEST_WORD_TO_OCCURRENCE
+    word_to_occurrence = main()
+    # word_to_occurrence = TEST_WORD_TO_OCCURRENCE
     print(word_to_occurrence)
 
     word_cloud = VisualWordCloud(word_to_occurrence)
