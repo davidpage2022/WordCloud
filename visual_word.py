@@ -4,7 +4,7 @@ import random
 from PIL import Image, ImageFont, ImageDraw
 
 
-class Word:
+class VisualWord:
     """Represents a physical word inside a WordCloud.
     A Word has a physical shape and visual representation."""
 
