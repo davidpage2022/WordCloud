@@ -1,3 +1,4 @@
+"""Create word cloud tools."""
 import operator
 import string
 
@@ -5,7 +6,7 @@ WORDS_WITH_VALUE = ["word", "cloud", "punctuation"]
 
 
 def main(source_text, model_selection="occurrence"):
-    """Produce words suitable for processing into a word cloud using random model selection."""
+    """Produce words suitable for processing into a word cloud."""
     raw_text = read_file(source_text)
     processed_list = process_string(raw_text)
     if model_selection == "occurrence":  # Creates a dictionary based on occurrence of words within list
@@ -54,41 +55,41 @@ def process_string(text_to_process):
 
 def determine_occurrences(list_data):
     """Add list to dictionary with value based on occurrence."""
-    word_to_occurrence = {}
+    word_to_count = {}
     for word in list_data:
-        word_to_occurrence[word] = list_data.count(word)
-    return word_to_occurrence
+        word_to_count[word] = list_data.count(word)
+    return word_to_count
 
 
 def allocate_values(list_data):
     """Add list to dictionary with value based on nominated keywords."""
-    word_to_occurrence = {}
+    word_to_count = {}
     for word in list_data:
-        word_to_occurrence[word] = 1
+        word_to_count[word] = 1
         if word in WORDS_WITH_VALUE:
-            word_to_occurrence[word] = (list_data.count(word) * 5)
-    return word_to_occurrence
+            word_to_count[word] = (list_data.count(word) * 5)
+    return word_to_count
 
 
 def determine_length(list_data):
     """Add list to dictionary with value based on length of word."""
-    word_to_occurrence = {}
+    word_to_count = {}
     for word in list_data:
-        word_to_occurrence[word] = len(word)
-    return word_to_occurrence
+        word_to_count[word] = len(word)
+    return word_to_count
 
 
 def sort_alphabetically(list_data):
     """Add list to dictionary with value based on alphabetical order."""
-    word_to_occurrence = {}
+    word_to_count = {}
     list_data.sort()
     for word in list_data:
-        word_to_occurrence[word] = 1
-    count = len(word_to_occurrence.values())
-    for key in word_to_occurrence:
-        word_to_occurrence[key] = count
+        word_to_count[word] = 1
+    count = len(word_to_count.values())
+    for key in word_to_count:
+        word_to_count[key] = count
         count -= 1
-    return word_to_occurrence
+    return word_to_count
 
 
 def insert_name(dictionary, name):

@@ -10,7 +10,7 @@ TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 def test_word_cloud():
 
     word_to_count = main(TEXT, "alphabetical")
-    # word_to_count = TEST_WORD_TO_OCCURRENCE
+    # word_to_count = TEST_WORD_TO_COUNT
     print(word_to_count)
 
     word_cloud = VisualWordCloud(word_to_count)
