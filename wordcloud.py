@@ -1,23 +1,20 @@
 import operator
-import random
 import string
 
-# TEXT = "initial_text.txt"
 WORDS_WITH_VALUE = ["word", "cloud", "punctuation"]
 
 
-def main(raw_text):
+def main(source_text, model_selection="occurrence"):
     """Produce words suitable for processing into a word cloud using random model selection."""
-    # raw_text = read_file(TEXT)
+    raw_text = read_file(source_text)
     processed_list = process_string(raw_text)
-    model_selection = random.randint(1, 4)
-    if model_selection == 1:  # Creates a dictionary based on occurrence of words within list
+    if model_selection == "occurrence":  # Creates a dictionary based on occurrence of words within list
         word_to_occurrence = determine_occurrences(processed_list)
         word_to_occurrence = insert_name(word_to_occurrence, "**OCCURRENCE BASED MODEL**")
-    elif model_selection == 2:  # Creates a dictionary based on value applied to word
+    elif model_selection == "value":  # Creates a dictionary based on value applied to word
         word_to_occurrence = allocate_values(processed_list)
         word_to_occurrence = insert_name(word_to_occurrence, "**WORD-VALUES BASED MODEL**")
-    elif model_selection == 3:  # Creates a dictionary based on length of word
+    elif model_selection == "length":  # Creates a dictionary based on length of word
         word_to_occurrence = determine_length(processed_list)
         word_to_occurrence = insert_name(word_to_occurrence, "**WORD-LENGTH BASED MODEL**")
     else:  # Creates a dictionary based on alphabetical sorting
@@ -105,6 +102,3 @@ def sort_by_value(dictionary):
     """Sort dictionary by value in descending order."""
     sorted_dictionary = dict(sorted(dictionary.items(), key=operator.itemgetter(1, 0), reverse=True))
     return sorted_dictionary
-
-
-main()
