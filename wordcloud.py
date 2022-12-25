@@ -9,19 +9,19 @@ def main(source_text, model_selection="occurrence"):
     raw_text = read_file(source_text)
     processed_list = process_string(raw_text)
     if model_selection == "occurrence":  # Creates a dictionary based on occurrence of words within list
-        word_to_occurrence = determine_occurrences(processed_list)
-        word_to_occurrence = insert_name(word_to_occurrence, "**OCCURRENCE BASED MODEL**")
+        word_to_count = determine_occurrences(processed_list)
+        word_to_count = insert_name(word_to_count, "**OCCURRENCE BASED MODEL**")
     elif model_selection == "value":  # Creates a dictionary based on value applied to word
-        word_to_occurrence = allocate_values(processed_list)
-        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-VALUES BASED MODEL**")
+        word_to_count = allocate_values(processed_list)
+        word_to_count = insert_name(word_to_count, "**WORD-VALUES BASED MODEL**")
     elif model_selection == "length":  # Creates a dictionary based on length of word
-        word_to_occurrence = determine_length(processed_list)
-        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-LENGTH BASED MODEL**")
+        word_to_count = determine_length(processed_list)
+        word_to_count = insert_name(word_to_count, "**WORD-LENGTH BASED MODEL**")
     else:  # Creates a dictionary based on alphabetical sorting
-        word_to_occurrence = sort_alphabetically(processed_list)
-        word_to_occurrence = insert_name(word_to_occurrence, "**ALPHABETICAL BASED MODEL**")
-    word_to_occurrence = sort_by_value(word_to_occurrence)
-    return word_to_occurrence
+        word_to_count = sort_alphabetically(processed_list)
+        word_to_count = insert_name(word_to_count, "**ALPHABETICAL BASED MODEL**")
+    word_to_count = sort_by_value(word_to_count)
+    return word_to_count
 
 
 def read_file(filename):

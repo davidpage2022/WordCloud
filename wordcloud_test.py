@@ -9,13 +9,11 @@ TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 
 def test_word_cloud():
 
-    # TODO: Should word_to_occurrence be renamed to word_to_count ?
+    word_to_count = main(TEXT, "alphabetical")
+    # word_to_count = TEST_WORD_TO_OCCURRENCE
+    print(word_to_count)
 
-    word_to_occurrence = main(TEXT, "alphabetical")
-    # word_to_occurrence = TEST_WORD_TO_OCCURRENCE
-    print(word_to_occurrence)
-
-    word_cloud = VisualWordCloud(word_to_occurrence)
+    word_cloud = VisualWordCloud(word_to_count)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
     word_cloud.render_to_image()
