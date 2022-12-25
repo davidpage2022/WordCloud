@@ -2,13 +2,13 @@ import operator
 import random
 import string
 
-FILENAME = "initial_text.txt"
+# TEXT = "initial_text.txt"
 WORDS_WITH_VALUE = ["word", "cloud", "punctuation"]
 
 
-def main():
+def main(raw_text):
     """Produce words suitable for processing into a word cloud using random model selection."""
-    raw_text = read_file(FILENAME)
+    # raw_text = read_file(TEXT)
     processed_list = process_string(raw_text)
     model_selection = random.randint(1, 4)
     if model_selection == 1:  # Creates a dictionary based on occurrence of words within list
@@ -19,7 +19,7 @@ def main():
         word_to_occurrence = insert_name(word_to_occurrence, "**WORD-VALUES BASED MODEL**")
     elif model_selection == 3:  # Creates a dictionary based on length of word
         word_to_occurrence = determine_length(processed_list)
-        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-lENGTH BASED MODEL**")
+        word_to_occurrence = insert_name(word_to_occurrence, "**WORD-LENGTH BASED MODEL**")
     else:  # Creates a dictionary based on alphabetical sorting
         word_to_occurrence = sort_alphabetically(processed_list)
         word_to_occurrence = insert_name(word_to_occurrence, "**ALPHABETICAL BASED MODEL**")
