@@ -18,7 +18,7 @@ def test_word_cloud():
     word_cloud = VisualWordCloud(word_to_occurrence, WordCloudStyleRandom())
     for visual_word in word_cloud.visual_words:
         print(visual_word)
-    word_cloud.render_to_image()
+    word_cloud.render_to_image(title="Title")
 
 
 if __name__ == '__main__':
