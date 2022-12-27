@@ -6,7 +6,7 @@ from visual_wordcloud import VisualWordCloud
 
 TEST_STRING = "This is a test test string string string."
 TEST_FILE = "initial_text.txt"
-TEST_MODEL = "alphabetical"  # Model options are "occurrence", "value", "length" and "alphabetical".
+TEST_MODEL = "occurrence"  # Model options are "occurrence", "value", "length" and "alphabetical".
 TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 
 

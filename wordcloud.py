@@ -1,4 +1,4 @@
-"""Create word cloud tools."""
+"""Create word cloud logic program."""
 import operator
 import string
 
@@ -7,7 +7,7 @@ FACTOR_TO_MULTIPLY_VALUE_WORDS_BY = 5
 
 
 def word_cloud_logic(source_text, model="occurrence"):
-    """Produce words suitable for processing into a word cloud using an occurrence, value, length or
+    """Produce a dictionary of words suitable for processing into a word cloud using an occurrence, value, length or
     alphabetical based model."""
     processed_list = process_string(source_text)
     if model == "occurrence":
@@ -90,7 +90,7 @@ def create_dictionary_based_on_alphabetical_order(list_of_words):
 
 
 def insert_name(dictionary, name):
-    """Insert name of model into dictionary."""
+    """Insert name of model into dictionary (will appear as the last item)."""
     maximum_value = (max(dictionary.values()) + 10)
     dictionary[name] = maximum_value
     return dictionary
