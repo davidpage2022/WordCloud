@@ -16,6 +16,8 @@ def word_cloud_logic(source_text, model="occurrence"):
         word_to_count = create_dictionary_based_on_valued_words(processed_list)
     elif model == "length":
         word_to_count = create_dictionary_based_on_word_length(processed_list)
+    elif model == "reversed":
+        word_to_count = create_dictionary_based_on_reversal(processed_list)
     else:
         word_to_count = create_dictionary_based_on_alphabetical_order(processed_list)
     word_to_count = sort_by_value(word_to_count)
@@ -76,6 +78,14 @@ def create_dictionary_based_on_word_length(list_of_words):
     return word_to_count
 
 
+def create_dictionary_based_on_reversal(list_of_words):
+    word_to_count = {}
+    for word in list_of_words:
+        reversed_word = word[::-1]
+        word_to_count[reversed_word] = 1
+    return word_to_count
+
+
 def create_dictionary_based_on_alphabetical_order(list_of_words):
     """Add list to dictionary with value based on alphabetical order."""
     word_to_count = {}
@@ -89,11 +99,11 @@ def create_dictionary_based_on_alphabetical_order(list_of_words):
     return word_to_count
 
 
-def insert_name(dictionary, name):
-    """Insert name of model into dictionary (will appear as the last item)."""
-    maximum_value = (max(dictionary.values()) + 10)
-    dictionary[name] = maximum_value
-    return dictionary
+# def insert_name(dictionary, name):
+#     """Insert name of model into dictionary (will appear as the last item)."""
+#     maximum_value = (max(dictionary.values()) + 10)
+#     dictionary[name] = maximum_value
+#     return dictionary
 
 
 def sort_by_value(dictionary):
