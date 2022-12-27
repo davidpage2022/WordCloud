@@ -2,7 +2,24 @@
 from PIL import Image, ImageFont, ImageDraw, ImageShow
 
 from visual_word import VisualWord
-from wordcloud_styles.wordcloud_style import WordCloudStyle
+
+
+class ColourSelector:
+    """Handles selection of word colour in the word cloud."""
+
+    def select_colour(self, word, value, word_to_values):
+        """Return the colour to use for a word in the word cloud.
+
+        The default is white text.
+        Override this method in a child class to customise the colour.
+
+        :param word: Word string.
+        :param value: Value of the word.
+        This is typically the number of times the word occurred in the original text.
+        :param word_to_values: Dictionary of words to their values.
+        :returns: Colour to use for the word as a string. For the string format see Pillow documentation:
+        https://pillow.readthedocs.io/en/stable/reference/ImageColor.html"""
+        return "white"
 
 
 class VisualWordCloud:
@@ -11,12 +28,12 @@ class VisualWordCloud:
     MAX_FONT_SIZE = 70
     FONT_SIZE_EXPONENT = 1.2
 
-    def __init__(self, word_to_occurrence, style=WordCloudStyle()):
+    def __init__(self, word_to_occurrence, colour_selector=ColourSelector()):
         """Construct a visual word cloud.
 
         :param word_to_occurrence: Dictionary of words to their occurrence.
-        :param style: Custom style to use for displaying the word cloud."""
-        self.style = style
+        :param colour_selector: Selector for choosing word colours."""
+        self.colour_selector = colour_selector
         self.word_to_occurrence = word_to_occurrence
         self.word_to_weight = self._calculate_weights()
         self.visual_words = self._make_words()
@@ -43,7 +60,7 @@ class VisualWordCloud:
             visual_words.append(
                 VisualWord(text=word, position=(0, 0), angle=0.0,
                            font_size=self._determine_font_size(word, self.FONT_SIZE_EXPONENT),
-                           font_colour=self.style.select_word_colour(word, count, weight)))
+                           font_colour=self.colour_selector.select_colour(word, count, self.word_to_occurrence)))
         return visual_words
 
     def _determine_font_size(self, word, bias=1.0):
