@@ -3,9 +3,10 @@ from wordcloud import read_file
 from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
 
-TEST_STRING = "This is a test test string string string."
-# TEST_FILE = "initial_text.txt"
-TEST_MODEL = "alphabetical"  # Model options are "occurrence", "value", "length", "reversed" and "alphabetical".
+TEST_STRING = "Sometimes unusual richness presents readily in sunset experiences."
+# TEST_STRING = "This is a test test string string string."
+TEST_FILE = "initial_text.txt"
+TEST_MODEL = "acronym"  # Model options are "occurrence", "value", "length", "reversed", "alphabetical" and "acronym.
 TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
 
 

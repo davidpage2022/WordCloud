@@ -21,6 +21,8 @@ def word_cloud_logic(source_text, model="occurrence"):
     else:
         word_to_count = map_word_to_alphabetical_order(processed_list)
     word_to_count = sort_by_value(word_to_count)
+    if model == "acronym":
+        word_to_count = create_acronym(source_text)
     return word_to_count
 
 
@@ -84,6 +86,28 @@ def create_reversed_words(words):
     for word in set(words):
         reversed_word = word[::-1]
         word_to_count[reversed_word] = 1
+    return word_to_count
+
+
+def create_acronym(text_to_process):
+    lower_case_string = text_to_process.lower()
+    split_list = lower_case_string.split()
+    right_stripped_list = []
+    for word in split_list:
+        while word[-1] in string.punctuation:
+            word = word[:-1]
+        right_stripped_list.append(word)
+    fully_stripped_list = []
+    for word in right_stripped_list:
+        while word[0] in string.punctuation:
+            word = word[1:]
+        fully_stripped_list.append(word)
+    word_to_count = {}
+    acronym = ""
+    for word in fully_stripped_list:
+        initial = word[0]
+        acronym = acronym + initial
+    word_to_count[acronym] = 1
     return word_to_count
 
 
