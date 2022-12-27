@@ -2,6 +2,7 @@
 from PIL import Image, ImageShow
 
 from visual_word import VisualWord
+from wordcloud_styles.wordcloud_style import WordCloudStyle
 
 
 class VisualWordCloud:
@@ -10,10 +11,12 @@ class VisualWordCloud:
     MAX_FONT_SIZE = 70
     FONT_SIZE_EXPONENT = 1.2
 
-    def __init__(self, word_to_occurrence):
+    def __init__(self, word_to_occurrence, style=WordCloudStyle()):
         """Construct a visual word cloud.
 
-        :param word_to_occurrence: Dictionary of words to their occurrence."""
+        :param word_to_occurrence: Dictionary of words to their occurrence.
+        :param style: Custom style to use for displaying the word cloud."""
+        self.style = style
         self.word_to_occurrence = word_to_occurrence
         self.word_to_weight = self._calculate_weights()
         self.visual_words = self._make_words()
@@ -36,9 +39,11 @@ class VisualWordCloud:
         :returns: List of created VisualWord objects."""
         visual_words = []
         for word, count in self.word_to_occurrence.items():
+            weight = self.word_to_weight[word]
             visual_words.append(
                 VisualWord(text=word, position=(0, 0), angle=0.0,
-                           font_size=self._determine_font_size(word, self.FONT_SIZE_EXPONENT)))
+                           font_size=self._determine_font_size(word, self.FONT_SIZE_EXPONENT),
+                           font_colour=self.style.select_word_colour(word, count, weight)))
         return visual_words
 
     def _determine_font_size(self, word, bias=1.0):
