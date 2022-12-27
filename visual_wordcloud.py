@@ -1,5 +1,5 @@
 """Visual arrangement and display of a word cloud."""
-from PIL import Image, ImageShow
+from PIL import Image, ImageFont, ImageDraw, ImageShow
 
 from visual_word import VisualWord
 
@@ -52,9 +52,26 @@ class VisualWordCloud:
         font_size = int(self.MIN_FONT_SIZE + weight * font_size_range)
         return font_size
 
-    def render_to_image(self):
-        """Render the word cloud to a temporary image and show it using default system viewer."""
+    def render_to_image(self, title=""):
+        """Render the word cloud to a temporary image and show it using default system viewer.
+
+        :param title: Optional title to display at the top-left of the image."""
         image = Image.new("RGBA", (800, 800), "#000000ff")
         for visual_word in self.visual_words:
             visual_word.draw_into(image)
+        self._draw_text_into(image, title, (20, 20), 26, "#666666")
         ImageShow.show(image)
+
+    @staticmethod
+    def _draw_text_into(image, text, position, font_size, colour="white"):
+        """Draw text into an image."""
+        font = ImageFont.truetype("arial.ttf", font_size)
+
+        # Draw text to mask.
+        mask = Image.new('L', image.size)
+        mask_drawer = ImageDraw.Draw(mask)
+        mask_drawer.text(position, text, 255, font)
+
+        # Draw into image.
+        color_image = Image.new('RGBA', image.size, colour)
+        image.paste(color_image, mask)
