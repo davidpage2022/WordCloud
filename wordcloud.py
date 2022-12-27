@@ -2,25 +2,22 @@
 import operator
 import string
 
-WORDS_WITH_VALUE = ["word", "cloud", "punctuation"]
+VALUED_WORDS = ["word", "cloud", "punctuation"]
+FACTOR_TO_MULTIPLY_VALUE_WORDS_BY = 5
 
 
-def main(source_text, model_selection="occurrence"):
-    """Produce words suitable for processing into a word cloud."""
-    raw_text = read_file(source_text)
-    processed_list = process_string(raw_text)
-    if model_selection == "occurrence":  # Creates a dictionary based on occurrence of words within list
-        word_to_count = determine_occurrences(processed_list)
-        word_to_count = insert_name(word_to_count, "**OCCURRENCE BASED MODEL**")
-    elif model_selection == "value":  # Creates a dictionary based on value applied to word
-        word_to_count = allocate_values(processed_list)
-        word_to_count = insert_name(word_to_count, "**WORD-VALUES BASED MODEL**")
-    elif model_selection == "length":  # Creates a dictionary based on length of word
-        word_to_count = determine_length(processed_list)
-        word_to_count = insert_name(word_to_count, "**WORD-LENGTH BASED MODEL**")
-    else:  # Creates a dictionary based on alphabetical sorting
-        word_to_count = sort_alphabetically(processed_list)
-        word_to_count = insert_name(word_to_count, "**ALPHABETICAL BASED MODEL**")
+def word_cloud_logic(source_text, model="occurrence"):
+    """Produce words suitable for processing into a word cloud using an occurrence, value, length or
+    alphabetical based model."""
+    processed_list = process_string(source_text)
+    if model == "occurrence":
+        word_to_count = create_dictionary_based_on_word_occurrence(processed_list)
+    elif model == "value":
+        word_to_count = create_dictionary_based_on_valued_words(processed_list)
+    elif model == "length":
+        word_to_count = create_dictionary_based_on_word_length(processed_list)
+    else:
+        word_to_count = create_dictionary_based_on_alphabetical_order(processed_list)
     word_to_count = sort_by_value(word_to_count)
     return word_to_count
 
@@ -53,37 +50,37 @@ def process_string(text_to_process):
     return processed_list
 
 
-def determine_occurrences(list_data):
+def create_dictionary_based_on_word_occurrence(list_of_words):
     """Add list to dictionary with value based on occurrence."""
     word_to_count = {}
-    for word in list_data:
-        word_to_count[word] = list_data.count(word)
+    for word in list_of_words:
+        word_to_count[word] = list_of_words.count(word)
     return word_to_count
 
 
-def allocate_values(list_data):
+def create_dictionary_based_on_valued_words(list_of_words):
     """Add list to dictionary with value based on nominated keywords."""
     word_to_count = {}
-    for word in list_data:
+    for word in list_of_words:
         word_to_count[word] = 1
-        if word in WORDS_WITH_VALUE:
-            word_to_count[word] = (list_data.count(word) * 5)
+        if word in VALUED_WORDS:
+            word_to_count[word] = (list_of_words.count(word) * FACTOR_TO_MULTIPLY_VALUE_WORDS_BY)
     return word_to_count
 
 
-def determine_length(list_data):
+def create_dictionary_based_on_word_length(list_of_words):
     """Add list to dictionary with value based on length of word."""
     word_to_count = {}
-    for word in list_data:
+    for word in list_of_words:
         word_to_count[word] = len(word)
     return word_to_count
 
 
-def sort_alphabetically(list_data):
+def create_dictionary_based_on_alphabetical_order(list_of_words):
     """Add list to dictionary with value based on alphabetical order."""
     word_to_count = {}
-    list_data.sort()
-    for word in list_data:
+    list_of_words.sort()
+    for word in list_of_words:
         word_to_count[word] = 1
     count = len(word_to_count.values())
     for key in word_to_count:
