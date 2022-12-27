@@ -8,14 +8,14 @@ FACTOR_TO_MULTIPLY_VALUED_WORDS_BY = 5
 
 def word_cloud_logic(source_text, model="occurrence"):
     """Produce a dictionary of words suitable for processing into a word cloud using an occurrence, value, length
-    reversed or alphabetical based model."""
+    reversed, alphabetical or acronym based model."""
     processed_list = process_string(source_text)
     if model == "occurrence":
-        word_to_count = map_word_to_occurrences(processed_list)
+        word_to_count = map_word_to_occurrence(processed_list)
     elif model == "value":
         word_to_count = map_word_to_valued_words(processed_list)
     elif model == "length":
-        word_to_count = map_word_to_word_length(processed_list)
+        word_to_count = map_word_to_length(processed_list)
     elif model == "reversed":
         word_to_count = create_reversed_words(processed_list)
     else:
@@ -54,7 +54,7 @@ def process_string(text_to_process):
     return processed_list
 
 
-def map_word_to_occurrences(words):
+def map_word_to_occurrence(words):
     """Add list to dictionary with value based on occurrence."""
     word_to_count = {}
     for word in set(words):
@@ -72,7 +72,7 @@ def map_word_to_valued_words(words):
     return word_to_count
 
 
-def map_word_to_word_length(words):
+def map_word_to_length(words):
     """Add list to dictionary with value based on length of word."""
     word_to_count = {}
     for word in set(words):
@@ -90,6 +90,7 @@ def create_reversed_words(words):
 
 
 def create_acronym(text_to_process):
+    """Creat an acronym from supplied text."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split()
     right_stripped_list = []
