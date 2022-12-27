@@ -30,7 +30,7 @@ class VisualWord:
         text_position = (
             image.size[0] / 2 + random.randint(-200, 200),
             image.size[1] / 2 + random.randint(-200, 200))
-        font = ImageFont.truetype("arial.ttf", self.font_size)
+        font = ImageFont.truetype("arial.ttf", self.font_size)  # TODO: Cache font.
 
         # Draw text to mask.
         mask = Image.new('L', image.size)
