@@ -14,6 +14,7 @@ def word_cloud_logic(source_text, model="occurrence"):
     "value": Creates a dictionary based on value applied to keywords.
     "length": Creates a dictionary based on length of words within list.
     "reversed": Creates a dictionary of words in their reversed order (value of 1 applied to all).
+    "phrase":  Creates a dictionary of phrases with value based inversely on length.
     "alphabetical": Creates a dictionary based on alphabetical order of words within list.
     "acronym": Creates a new word from the initial letters of words within the supplied text.
     """
@@ -27,10 +28,12 @@ def word_cloud_logic(source_text, model="occurrence"):
         word_to_count = map_word_to_length(processed_list)
     elif model == "reversed":
         word_to_count = create_reversed_words(processed_list)
+    elif model == "phrase":  # TODO Need to discuss placement of this statement
+        word_to_count = map_phrase_to_length(source_text)
     else:
         word_to_count = map_word_to_alphabetical_order(processed_list)  # alphabetical model
     word_to_count = sort_by_value(word_to_count)
-    if model == "acronym":
+    if model == "acronym":  # TODO Need to discuss placement of this statement
         word_to_count = create_acronym(source_text)
     return word_to_count
 
@@ -44,23 +47,29 @@ def read_file(filename):
 
 
 def process_string(text_to_process):
-    """Process the initial string to remove unnecessary punctuation and small-sized words."""
+    """Process the initial string to a suitable format for dictionary creation."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split()
     raw_words_list = [word for word in split_list if len(word) >= 3]  # Will remove minor punctuation errors eg ;;
-    right_stripped_list = []
-    for word in raw_words_list:
-        while word[-1] in string.punctuation:
-            word = word[:-1]
-        right_stripped_list.append(word)
-    fully_stripped_list = []
-    for word in right_stripped_list:
-        while word[0] in string.punctuation:
-            word = word[1:]
-        fully_stripped_list.append(word)
+    fully_stripped_list = strip_list(raw_words_list)
     processed_list = [word for word in fully_stripped_list if len(word) >= 3
                       and word != "and" and word != "the"]
     return processed_list
+
+
+def strip_list(split_list):
+    """Strip unnecessary punctuation from ends of string."""
+    right_stripped_list = []
+    for unit in split_list:
+        while unit[-1] in string.punctuation:
+            unit = unit[:-1]
+        right_stripped_list.append(unit)
+    fully_stripped_list = []
+    for unit in right_stripped_list:
+        while unit[0] in string.punctuation:
+            unit = unit[1:]
+        fully_stripped_list.append(unit)
+    return fully_stripped_list
 
 
 def map_word_to_occurrence(words):
@@ -98,20 +107,23 @@ def create_reversed_words(words):
     return word_to_count
 
 
+def map_phrase_to_length(text_to_process):
+    """Add list of phrases to dictionary with value based inversely on length."""
+    lower_case_string = text_to_process.lower()
+    split_list = lower_case_string.split(',')
+    fully_stripped_list = strip_list(split_list)
+    sorted_list = sorted(fully_stripped_list)
+    word_to_count = {}
+    for phrase in set(fully_stripped_list):
+        word_to_count[phrase] = (len(sorted_list[0]) - len(phrase))
+    return word_to_count
+
+
 def create_acronym(text_to_process):
     """Creat an acronym using initial letters of words from supplied text."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split()
-    right_stripped_list = []
-    for word in split_list:
-        while word[-1] in string.punctuation:
-            word = word[:-1]
-        right_stripped_list.append(word)
-    fully_stripped_list = []
-    for word in right_stripped_list:
-        while word[0] in string.punctuation:
-            word = word[1:]
-        fully_stripped_list.append(word)
+    fully_stripped_list = strip_list(split_list)
     word_to_count = {}
     acronym = ""
     for word in fully_stripped_list:
