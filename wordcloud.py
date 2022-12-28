@@ -7,8 +7,17 @@ FACTOR_TO_MULTIPLY_VALUED_WORDS_BY = 5
 
 
 def word_cloud_logic(source_text, model="occurrence"):
-    """Produce a dictionary of words suitable for processing into a word cloud using an occurrence, value, length
-    reversed, alphabetical or acronym based model."""
+    """Produce a dictionary of words suitable for processing into a word cloud using the specified model.
+
+    Available models:
+    "occurrence": Creates a dictionary based on occurrence of words within list.
+    "value": Creates a dictionary based on value applied to keywords.
+    "length": Creates a dictionary based on length of words within list.
+    "reversed": Creates a dictionary of words in their reversed order (value of 1 applied to all).
+    "alphabetical": Creates a dictionary based on alphabetical order of words within list.
+    "acronym": Creates a new word from the initial letters of words within the supplied text.
+    """
+
     processed_list = process_string(source_text)
     if model == "occurrence":
         word_to_count = map_word_to_occurrence(processed_list)
@@ -19,7 +28,7 @@ def word_cloud_logic(source_text, model="occurrence"):
     elif model == "reversed":
         word_to_count = create_reversed_words(processed_list)
     else:
-        word_to_count = map_word_to_alphabetical_order(processed_list)
+        word_to_count = map_word_to_alphabetical_order(processed_list)  # alphabetical model
     word_to_count = sort_by_value(word_to_count)
     if model == "acronym":
         word_to_count = create_acronym(source_text)
