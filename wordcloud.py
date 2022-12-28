@@ -90,7 +90,7 @@ def create_reversed_words(words):
 
 
 def create_acronym(text_to_process):
-    """Creat an acronym from supplied text."""
+    """Creat an acronym using initial letters of words from supplied text."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split()
     right_stripped_list = []
