@@ -2,7 +2,7 @@
 import operator
 import string
 
-VALUED_WORDS = ["word", "cloud", "punctuation", "string"]
+VALUED_WORDS = ["test"]
 FACTOR_TO_MULTIPLY_VALUED_WORDS_BY = 5
 
 
@@ -112,10 +112,10 @@ def map_phrase_to_length(text_to_process):
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split(',')
     fully_stripped_list = strip_list(split_list)
-    sorted_list = sorted(fully_stripped_list)
+    sorted_list = sorted(fully_stripped_list)  # TODO Need to discuss this statement
     word_to_count = {}
     for phrase in set(fully_stripped_list):
-        word_to_count[phrase] = (len(sorted_list[0]) - len(phrase))
+        word_to_count[phrase] = (len(sorted_list[0]) - len(phrase))  # TODO Need to discuss this statement
     return word_to_count
 
 
@@ -137,7 +137,7 @@ def map_word_to_alphabetical_order(words):
     """Add list to dictionary with value based on alphabetical order."""
     word_to_count = {}
     words.sort()
-    for word in set(words):
+    for word in words:
         word_to_count[word] = 1
     count = len(word_to_count.values())
     for key in word_to_count:

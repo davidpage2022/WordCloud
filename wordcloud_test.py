@@ -5,7 +5,7 @@ from visual_wordcloud import VisualWordCloud
 
 # Model options are "occurrence", "value", "length", "reversed",
 # "phrase", "alphabetical" and "acronym".
-MODEL = "acronym"
+MODEL = "value"
 
 TEST_STRING_1 = "This is a test test string string string."  # For testing all models except for phrase & acronym
 TEST_STRING_2 = "One cat, Two big dogs, Three hungry yellow chicks"  # For testing phrase model
