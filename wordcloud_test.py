@@ -3,9 +3,9 @@ from wordcloud import read_file
 from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
 
-# Model options are "occurrence", "value", "length", "reversed",
+# Model options are "occurrence", "valued-words", "valued-characters", "length", "reversed",
 # "phrase", "alphabetical" and "acronym".
-MODEL = "value"
+MODEL = "valued-characters"
 
 TEST_STRING_1 = "This is a test test string string string."  # For testing all models except for phrase & acronym
 TEST_STRING_2 = "One cat, Two big dogs, Three hungry yellow chicks"  # For testing phrase model
@@ -18,7 +18,8 @@ TEST_FILE = "initial_text.txt"
 
 def test_word_cloud():
     """Test word cloud logic tools."""
-    if MODEL == "occurrence" or MODEL == "value" or MODEL == "length" or MODEL == "reversed" or MODEL == "alphabetical":
+    if MODEL == "occurrence" or MODEL == "valued-words" or MODEL == "valued-characters" or MODEL == "length" or \
+            MODEL == "reversed" or MODEL == "alphabetical":
         text = TEST_STRING_1
         # text = read_file(TEST_FILE)
     elif MODEL == "phrase":

@@ -3,7 +3,8 @@ import operator
 import string
 
 VALUED_WORDS = ["test"]
-FACTOR_TO_MULTIPLY_VALUED_WORDS_BY = 5
+VALUED_CHARACTERS = ["s"]
+FACTOR_TO_MULTIPLY_VALUED_ITEMS_BY = 5
 
 
 def word_cloud_logic(source_text, model="occurrence"):
@@ -11,7 +12,8 @@ def word_cloud_logic(source_text, model="occurrence"):
 
     Available models:
     "occurrence": Creates a dictionary based on occurrence of words within list.
-    "value": Creates a dictionary based on value applied to keywords.
+    "valued-words": Creates a dictionary based on value applied to nominated keywords.
+    "valued-characters": Creates a dictionary based on value applied to nominated initial letter of words.
     "length": Creates a dictionary based on length of words within list.
     "reversed": Creates a dictionary of words in their reversed order (value of 1 applied to all).
     "phrase":  Creates a dictionary of phrases with value based inversely on length.
@@ -22,8 +24,10 @@ def word_cloud_logic(source_text, model="occurrence"):
     processed_list = process_string(source_text)
     if model == "occurrence":
         word_to_count = map_word_to_occurrence(processed_list)
-    elif model == "value":
+    elif model == "valued-words":
         word_to_count = map_word_to_valued_words(processed_list)
+    elif model == "valued-characters":
+        word_to_count = map_word_to_valued_characters(processed_list)
     elif model == "length":
         word_to_count = map_word_to_length(processed_list)
     elif model == "reversed":
@@ -86,7 +90,17 @@ def map_word_to_valued_words(words):
     for word in set(words):
         word_to_count[word] = 1
         if word in VALUED_WORDS:
-            word_to_count[word] = (words.count(word) * FACTOR_TO_MULTIPLY_VALUED_WORDS_BY)
+            word_to_count[word] = (words.count(word) * FACTOR_TO_MULTIPLY_VALUED_ITEMS_BY)
+    return word_to_count
+
+
+def map_word_to_valued_characters(words):
+    """Add list to dictionary with value based on nominated characters."""
+    word_to_count = {}
+    for word in set(words):
+        word_to_count[word] = 1
+        if word[0] in VALUED_CHARACTERS:
+            word_to_count[word] = (words.count(word) * FACTOR_TO_MULTIPLY_VALUED_ITEMS_BY)
     return word_to_count
 
 
