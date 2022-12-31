@@ -18,6 +18,7 @@ def word_cloud_logic(source_text, model="occurrence"):
     "reversed": Creates a dictionary of words in their reversed order (value of 1 applied to all).
     "phrase":  Creates a dictionary of phrases with value based inversely on length.
     "alphabetical": Creates a dictionary based on alphabetical order of words within list.
+    "multiple-choice":  Creates a dictionary of multiple choice options with value based on number of responses.
     "acronym": Creates a new word from the initial letters of words within the supplied text.
     """
 
@@ -34,6 +35,8 @@ def word_cloud_logic(source_text, model="occurrence"):
         word_to_count = create_reversed_words(processed_list)
     elif model == "phrase":  # TODO Need to discuss placement of this statement
         word_to_count = map_phrase_to_length(source_text)
+    elif model == "multiple-choice":
+        word_to_count = process_multiple_choice(source_text)
     else:
         word_to_count = map_word_to_alphabetical_order(processed_list)  # alphabetical model
     word_to_count = sort_by_value(word_to_count)
@@ -64,10 +67,14 @@ def process_string(text_to_process):
 def strip_list(split_list):
     """Strip unnecessary punctuation from ends of string."""
     right_stripped_list = []
-    for unit in split_list:
-        while unit[-1] in string.punctuation:
-            unit = unit[:-1]
-        right_stripped_list.append(unit)
+    try:
+        for unit in split_list:
+            while unit[-1] in string.punctuation:
+                unit = unit[:-1]
+            right_stripped_list.append(unit)
+    except IndexError:
+        print("There is a word in your text that contains only punctuation."
+              "Please review and remove this.")  # TODO Need to discuss how to stop list being returned after this error
     fully_stripped_list = []
     for unit in right_stripped_list:
         while unit[0] in string.punctuation:
@@ -133,17 +140,18 @@ def map_phrase_to_length(text_to_process):
     return word_to_count
 
 
-def create_acronym(text_to_process):
-    """Creat an acronym using initial letters of words from supplied text."""
+def process_multiple_choice(text_to_process):
+    """Add multiple choice options to dictionary with value based on number of responses."""
     lower_case_string = text_to_process.lower()
-    split_list = lower_case_string.split()
-    fully_stripped_list = strip_list(split_list)
-    word_to_count = {}
-    acronym = ""
-    for word in fully_stripped_list:
-        initial = word[0]
-        acronym = acronym + initial
-    word_to_count[acronym] = 1
+    split_list = lower_case_string.split(';')
+    half_length_of_list = int(len(split_list) / 2)
+    options = split_list[:half_length_of_list]
+    string_responses = split_list[half_length_of_list:]
+    integer_responses = []
+    for number in string_responses:
+        number = int(number)
+        integer_responses.append(number)
+    word_to_count = dict(zip(options, integer_responses))
     return word_to_count
 
 
@@ -157,6 +165,20 @@ def map_word_to_alphabetical_order(words):
     for key in word_to_count:
         word_to_count[key] = count
         count -= 1
+    return word_to_count
+
+
+def create_acronym(text_to_process):
+    """Creat an acronym using initial letters of words from supplied text."""
+    lower_case_string = text_to_process.lower()
+    split_list = lower_case_string.split()
+    fully_stripped_list = strip_list(split_list)
+    word_to_count = {}
+    acronym = ""
+    for word in fully_stripped_list:
+        initial = word[0]
+        acronym = acronym + initial
+    word_to_count[acronym] = 1
     return word_to_count
 
 

@@ -4,13 +4,15 @@ from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
 
 # Model options are "occurrence", "valued-words", "valued-characters", "length", "reversed",
-# "phrase", "alphabetical" and "acronym".
-MODEL = "valued-characters"
+# "phrase", "alphabetical" "multiple choice" and "acronym".
+MODEL = "multiple-choice"
 
 TEST_STRING_1 = "This is a test test string string string."  # For testing all models except for phrase & acronym
 TEST_STRING_2 = "One cat, Two big dogs, Three hungry yellow chicks"  # For testing phrase model
 TEST_STRING_3 = "People really only get ready after making milkshakes in nice glasses."  # For testing acronym model
 TEST_FILE = "initial_text.txt"
+MULTIPLE_CHOICE_OPTIONS = "Dictionaries are fun; Lists are fun; Sets are fun; Classes are really fun; "
+MULTIPLE_CHOICE_RESPONSES = "5; 10; 3; 20"
 
 
 # TEST_WORD_TO_OCCURRENCE = {"string": 3, "test": 2, "this": 1, "is": 1, "a": 1}
@@ -24,6 +26,8 @@ def test_word_cloud():
         # text = read_file(TEST_FILE)
     elif MODEL == "phrase":
         text = TEST_STRING_2
+    elif MODEL == "multiple-choice":
+        text = MULTIPLE_CHOICE_OPTIONS + MULTIPLE_CHOICE_RESPONSES
     else:  # For testing acronym model
         text = TEST_STRING_3
     word_to_count = word_cloud_logic(text, MODEL)
