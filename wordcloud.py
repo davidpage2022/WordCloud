@@ -33,14 +33,14 @@ def word_cloud_logic(source_text, model="occurrence"):
         word_to_count = map_word_to_length(processed_list)
     elif model == "reversed":
         word_to_count = create_reversed_words(processed_list)
-    elif model == "phrase":  # TODO Need to discuss placement of this statement
+    elif model == "phrase":
         word_to_count = map_phrase_to_length(source_text)
     elif model == "multiple-choice":
         word_to_count = process_multiple_choice(source_text)
     else:
         word_to_count = map_word_to_alphabetical_order(processed_list)  # alphabetical model
     word_to_count = sort_by_value(word_to_count)
-    if model == "acronym":  # TODO Need to discuss placement of this statement
+    if model == "acronym":
         word_to_count = create_acronym(source_text)
     return word_to_count
 
@@ -57,27 +57,23 @@ def process_string(text_to_process):
     """Process the initial string to a suitable format for dictionary creation."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split()
-    raw_words_list = [word for word in split_list if len(word) >= 3]  # Will remove minor punctuation errors eg ;;
-    fully_stripped_list = strip_list(raw_words_list)
+    fully_stripped_list = strip_list(split_list)
     processed_list = [word for word in fully_stripped_list if len(word) >= 3
                       and word != "and" and word != "the"]
     return processed_list
 
 
 def strip_list(split_list):
-    """Strip unnecessary punctuation from ends of string."""
+    """Strip unnecessary punctuation and whitespace from ends of string."""
     right_stripped_list = []
-    try:
-        for unit in split_list:
-            while unit[-1] in string.punctuation:
-                unit = unit[:-1]
-            right_stripped_list.append(unit)
-    except IndexError:
-        print("There is a word in your text that contains only punctuation."
-              "Please review and remove this.")  # TODO Need to discuss how to stop list being returned after this error
+    for unit in split_list:
+        while len(unit) > 0 and unit[-1].strip() in string.punctuation:
+            unit = unit[:-1]
+        right_stripped_list.append(unit)
+    right_stripped_list = [item for item in right_stripped_list if item != ""]
     fully_stripped_list = []
     for unit in right_stripped_list:
-        while unit[0] in string.punctuation:
+        while len(unit) > 0 and unit[0].strip() in string.punctuation:
             unit = unit[1:]
         fully_stripped_list.append(unit)
     return fully_stripped_list
@@ -132,21 +128,23 @@ def map_phrase_to_length(text_to_process):
     """Add list of phrases to dictionary with value based inversely on length."""
     lower_case_string = text_to_process.lower()
     split_list = lower_case_string.split(',')
-    fully_stripped_list = strip_list(split_list)
-    sorted_list = sorted(fully_stripped_list)  # TODO Need to discuss this statement
+    fully_stripped_phrase = strip_list(split_list)
+    print(fully_stripped_phrase)
+    sorted_list = sorted(fully_stripped_phrase, key=len)
     word_to_count = {}
-    for phrase in set(fully_stripped_list):
-        word_to_count[phrase] = (len(sorted_list[0]) - len(phrase))  # TODO Need to discuss this statement
+    for phrase in set(sorted_list):
+        word_to_count[phrase] = (len(sorted_list[-1]) - len(phrase))
     return word_to_count
 
 
 def process_multiple_choice(text_to_process):
     """Add multiple choice options to dictionary with value based on number of responses."""
     lower_case_string = text_to_process.lower()
-    split_list = lower_case_string.split(';')
-    half_length_of_list = int(len(split_list) / 2)
-    options = split_list[:half_length_of_list]
-    string_responses = split_list[half_length_of_list:]
+    split_list = lower_case_string.split(',')
+    fully_stripped_phrase = strip_list(split_list)
+    half_length_of_list = int(len(fully_stripped_phrase) / 2)
+    options = fully_stripped_phrase[:half_length_of_list]
+    string_responses = fully_stripped_phrase[half_length_of_list:]
     integer_responses = []
     for number in string_responses:
         number = int(number)
