@@ -1,7 +1,9 @@
 """Test word cloud logic tools."""
+
 from wordcloud import read_file
 from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
+from wordcloud_style import RandomColourSelector
 
 # Model options are "occurrence", "valued-words", "valued-characters", "length", "reversed",
 # "phrase", "alphabetical" "multiple-choice" and "acronym".
@@ -43,7 +45,8 @@ def test_word_cloud():
     # word_to_count = TEST_WORD_TO_COUNT
     print(word_to_count)
 
-    word_cloud = VisualWordCloud(word_to_count)
+    colour_selector = RandomColourSelector()
+    word_cloud = VisualWordCloud(word_to_count, colour_selector)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
     word_cloud.render_to_image(title=f"{MODEL.title()} Model")

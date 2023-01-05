@@ -8,18 +8,22 @@ class VisualWord:
     """Represents a physical word inside a WordCloud.
     A Word has a physical shape and visual representation."""
 
-    def __init__(self, text, position, angle, font_size):
+    def __init__(self, text, position, angle, font_size, font_colour):
         """Construct a word.
 
         :param text: Text of the word.
         :param position: Position inside the word cloud as an (x, y) tuple.
         Coordinates are in the range 0-1, where (0,0) is upper-left corner.
         :param angle: Angle in degrees to rotate the word clockwise.
-        :param font_size: Size of the font in pixels."""
+        :param font_size: Size of the font in pixels.
+        :param font_colour: Colour of the font as a string.
+        See Pillow documentation for the string format:
+        https://pillow.readthedocs.io/en/stable/reference/ImageColor.html"""
         self.text = text
         self.position = position
         self.angle = angle
         self.font_size = font_size
+        self.font_colour = font_colour
 
     def check_is_overlapping(self, other_word) -> bool:
         """Determine if another word overlaps with this word."""
@@ -38,7 +42,7 @@ class VisualWord:
         mask_drawer.text(text_position, self.text, 255, font)
 
         # Draw into image.
-        color_image = Image.new('RGBA', image.size, "#ffffffff")
+        color_image = Image.new('RGBA', image.size, self.font_colour)
         image.paste(color_image, mask)
 
         # TODO: Add rotation support.
