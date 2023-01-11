@@ -1,4 +1,4 @@
-This is the story of creating a word cloud:
+;;; This is the story of creating a word cloud:
 The first step is to understand the power of a word cloud as a graphical tool.  Simple in appearance yet powerful
 in performance, the word cloud allows the user to view data as an image and rapidly process insights.
 Perhaps you have seen them used at a conference?  Organisers will often ask the audience to submit their
