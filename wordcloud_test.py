@@ -4,6 +4,7 @@ from wordcloud import read_file
 from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
 from wordcloud_style import RandomColourSelector
+from wordcloud_style import UserInputBasedSelector
 
 # Model options are "occurrence", "valued-words", "valued-characters", "length", "reversed",
 # "phrase", "alphabetical" "multiple-choice" and "acronym".
@@ -33,8 +34,8 @@ def test_word_cloud():
     """Test word cloud logic tools."""
     if MODEL == "occurrence" or MODEL == "valued-words" or MODEL == "valued-characters" or MODEL == "length" or \
             MODEL == "reversed" or MODEL == "alphabetical":
-        text = TEST_STRING_1
-        # text = read_file(TEST_FILE)
+        # text = TEST_STRING_1
+        text = read_file(TEST_FILE)
     elif MODEL == "phrase":
         text = TEST_STRING_2
     elif MODEL == "multiple-choice":
@@ -45,7 +46,7 @@ def test_word_cloud():
     # word_to_count = TEST_WORD_TO_COUNT
     print(word_to_count)
 
-    colour_selector = RandomColourSelector()
+    colour_selector = UserInputBasedSelector()
     word_cloud = VisualWordCloud(word_to_count, colour_selector)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
