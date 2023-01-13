@@ -4,14 +4,16 @@ from wordcloud import read_file
 from wordcloud import word_cloud_logic
 from visual_wordcloud import VisualWordCloud
 from wordcloud_style import RandomColourSelector
-from wordcloud_style import UserInputBasedSelector
+from wordcloud_style import QuantizedColourSelector
 
 # Model options are "occurrence", "valued-words", "valued-characters", "length", "reversed",
 # "phrase", "alphabetical" "multiple-choice" and "acronym".
 MODEL = "occurrence"
 
 # For testing all models except for phrase & acronym
-TEST_STRING_1 = "$%&*@&&&&### @@@ This% :is a $test$ test    +string string+ string."
+# TEST_STRING_1 = "$%&*@&&&&### @@@ This% :is a $test$ test    +string string+ string."
+TEST_STRING_1 = "red red red red red red red orange orange orange orange orange orange yellow yellow yellow yellow " \
+                "yellow green green green green blue blue blue indigo indigo violet"
 
 # For testing phrase model
 TEST_STRING_2 = "$%&*@?><&&& %%% &One cat* ,  $$$Two big dogs<<< *   , &&Three hungry yellow chicks**, *** Four&&&"
@@ -20,7 +22,8 @@ TEST_STRING_2 = "$%&*@?><&&& %%% &One cat* ,  $$$Two big dogs<<< *   , &&Three h
 TEST_STRING_3 = "$%&*@&&&&### @@@ ?People #really$ only    get &ready& after making milkshakes in nice glasses. $%&*@"
 
 # For testing multiple-choice model
-MULTIPLE_CHOICE_OPTIONS = "$%&*@&&&&### @@@ %Dictionaries are fun   , &Lists are fun* ,   &@@*Sets are fun, $%&*@ Classes are really fun, "
+MULTIPLE_CHOICE_OPTIONS = "$%&*@&&&&### @@@ %Dictionaries are fun   , &Lists are fun* ,   &@@*Sets are fun, $%&*@ " \
+                          "Classes are really fun, "
 MULTIPLE_CHOICE_RESPONSES = "5, 10, 3, 20"
 
 # For testing a string found in a text file
@@ -34,8 +37,8 @@ def test_word_cloud():
     """Test word cloud logic tools."""
     if MODEL == "occurrence" or MODEL == "valued-words" or MODEL == "valued-characters" or MODEL == "length" or \
             MODEL == "reversed" or MODEL == "alphabetical":
-        # text = TEST_STRING_1
-        text = read_file(TEST_FILE)
+        text = TEST_STRING_1
+        # text = read_file(TEST_FILE)
     elif MODEL == "phrase":
         text = TEST_STRING_2
     elif MODEL == "multiple-choice":
@@ -46,7 +49,7 @@ def test_word_cloud():
     # word_to_count = TEST_WORD_TO_COUNT
     print(word_to_count)
 
-    colour_selector = UserInputBasedSelector()
+    colour_selector = QuantizedColourSelector()
     word_cloud = VisualWordCloud(word_to_count, colour_selector)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
