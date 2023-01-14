@@ -7,6 +7,15 @@ from visual_word import VisualWord
 class ColourSelector:
     """Handles selection of word colour in the word cloud."""
 
+    def on_begin_draw(self, word_to_values):
+        """Handle any set up required before drawing the word cloud.
+
+        Called by a VisualWordCloud before the first word is drawn.
+        Override this method in a child class to do any set up.
+
+        :param word_to_values: Dictionary of words to their values."""
+        pass
+
     def select_colour(self, word, value, word_to_values):
         """Return the colour to use for a word in the word cloud.
 
@@ -21,6 +30,13 @@ class ColourSelector:
         https://pillow.readthedocs.io/en/stable/reference/ImageColor.html"""
         return "white"
 
+    def on_end_draw(self):
+        """Handle any clean up required after drawing the word cloud.
+
+        Called by a VisualWordCloud after the last word is drawn.
+        Override this method in a child class to do any clean up."""
+        pass
+
 
 class VisualWordCloud:
     """Visual representation of a word cloud"""
@@ -28,13 +44,13 @@ class VisualWordCloud:
     MAX_FONT_SIZE = 70
     FONT_SIZE_EXPONENT = 1.2
 
-    def __init__(self, word_to_occurrence, colour_selector=ColourSelector()):
+    def __init__(self, word_to_values, colour_selector=ColourSelector()):
         """Construct a visual word cloud.
 
-        :param word_to_occurrence: Dictionary of words to their occurrence.
+        :param word_to_values: Dictionary of words to their occurrence.
         :param colour_selector: Selector for choosing word colours."""
         self.colour_selector = colour_selector
-        self.word_to_occurrence = word_to_occurrence
+        self.word_to_values = word_to_values
         self.word_to_weight = self._calculate_weights()
         self.visual_words = self._make_words()
 
@@ -44,8 +60,8 @@ class VisualWordCloud:
 
         :returns: Dictionary of words to their weights."""
         word_to_weight = {}
-        total_word_count = sum(self.word_to_occurrence.values())
-        for word, count in self.word_to_occurrence.items():
+        total_word_count = sum(self.word_to_values.values())
+        for word, count in self.word_to_values.items():
             weight = count / total_word_count
             word_to_weight[word] = weight
         return word_to_weight
@@ -54,13 +70,15 @@ class VisualWordCloud:
         """Create visual word objects and place them in random positions.
 
         :returns: List of created VisualWord objects."""
+        self.colour_selector.on_begin_draw(self.word_to_values)
         visual_words = []
-        for word, count in self.word_to_occurrence.items():
+        for word, count in self.word_to_values.items():
             weight = self.word_to_weight[word]
             visual_words.append(
                 VisualWord(text=word, position=(0, 0), angle=0.0,
                            font_size=self._determine_font_size(word, self.FONT_SIZE_EXPONENT),
-                           font_colour=self.colour_selector.select_colour(word, count, self.word_to_occurrence)))
+                           font_colour=self.colour_selector.select_colour(word, count, self.word_to_values)))
+        self.colour_selector.on_end_draw()
         return visual_words
 
     def _determine_font_size(self, word, bias=1.0):
