@@ -30,7 +30,6 @@ class QuantizedColourSelector(ColourSelector):
 
         :param word_to_values: Dictionary of words to their values."""
         self.max_value = max(word_to_values.values())
-        return self.max_value
 
     def select_colour(self, word, value, word_to_values):
 
