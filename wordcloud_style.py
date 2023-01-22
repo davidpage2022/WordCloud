@@ -17,9 +17,9 @@ class RandomColourSelector(ColourSelector):
 class QuantizedColourSelector(ColourSelector):
     """Apply colour based on a user provided list."""
 
-    def __init__(self, colour_list, max_value):
+    def __init__(self, colour_list):
         self.colour_list = colour_list
-        self.max_value = max_value
+        self.max_value = 0
 
     def on_begin_draw(self, word_to_values):
         # Docstring from parent class:
@@ -32,34 +32,22 @@ class QuantizedColourSelector(ColourSelector):
         self.max_value = max(word_to_values.values())
 
     def select_colour(self, word, value, word_to_values):
+        assert len(self.colour_list) > 0
 
-        # max_value = max(word_to_values.values())
+        for i in range(len(self.colour_list)):
+            if value <= i + 1:
+                return self.colour_list[len(self.colour_list) - 1 - i]
+        return self.colour_list[-1]
 
-        # i = 1
-        # for value in word_to_values.values():
-        #     if value <= max_value / len(user_colours) * i:
-        #         red, green, blue = user_colours[len(user_colours) - i]
-        #         return f"rgb({red},{green},{blue})"
-        #     i += 1
-
-        if value <= self.max_value / len(self.colour_list):  # Smallest sized words have the last colour in the list applied
-            red, green, blue = self.colour_list[-1]
-            return f"rgb({red},{green},{blue})"
-        elif value <= self.max_value / len(self.colour_list) * (len(self.colour_list) - 5):
-            red, green, blue = self.colour_list[-2]
-            return f"rgb({red},{green},{blue})"
-        elif value <= self.max_value / len(self.colour_list) * (len(self.colour_list) - 4):
-            red, green, blue = self.colour_list[-3]
-            return f"rgb({red},{green},{blue})"
-        elif value <= self.max_value / len(self.colour_list) * (len(self.colour_list) - 3):
-            red, green, blue = self.colour_list[-4]
-            return f"rgb({red},{green},{blue})"
-        elif value <= self.max_value / len(self.colour_list) * (len(self.colour_list) - 2):
-            red, green, blue = self.colour_list[-5]
-            return f"rgb({red},{green},{blue})"
-        elif value <= self.max_value / len(self.colour_list) * (len(self.colour_list) - 1):
-            red, green, blue = self.colour_list[-6]
-            return f"rgb({red},{green},{blue})"
-        else:  # Largest sized words have the first colour in the list applied
-            red, green, blue = self.colour_list[-7]
-            return f"rgb({red},{green},{blue})"
+        # Erica's original version with default of white:
+        # if self.colour_list:
+        #     i = 1
+        #     for colour in self.colour_list:
+        #         if value <= self.max_value / len(self.colour_list) * i:
+        #             return self.colour_list[len(self.colour_list) - i]
+        #         i += 1
+        #     return self.colour_list[-1]
+        # red = 255
+        # green = 255
+        # blue = 255
+        # return f"rgb({red},{green},{blue})"
