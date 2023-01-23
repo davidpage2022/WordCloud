@@ -21,6 +21,7 @@ class QuantizedColourSelector(ColourSelector):
     """Apply colour based on a user provided list."""
 
     def __init__(self, colour_list):
+        super().__init__(background_colour=(255, 255, 255), title_colour=(0, 0, 0))
         self.colour_list = colour_list
         self.max_value = 0
 

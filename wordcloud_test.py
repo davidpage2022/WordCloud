@@ -53,6 +53,7 @@ def test_word_cloud():
                (148, 0, 211)]  # This is a list of RGB codes for the colours of the rainbow
     # colours = []  # Empty list to test select_colour() method
     colour_selector = QuantizedColourSelector(colours)
+    # colour_selector = RandomColourSelector(background_colour=(255, 0, 0), title_colour=(0, 255, 0))
     word_cloud = VisualWordCloud(word_to_count, colour_selector)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
