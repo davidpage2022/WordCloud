@@ -5,7 +5,15 @@ from visual_word import VisualWord
 
 
 class ColourSelector:
-    """Handles selection of word colour in the word cloud."""
+    """Handles selection of colours in the word cloud."""
+
+    def __init__(self, background_colour="#000000ff", title_colour="#666666ff"):
+        """Construct a colour selector.
+
+        :param background_colour: Colour to use for the background of the word cloud.
+        :param title_colour: Colour to use for any title text in the word cloud."""
+        self.background_colour = background_colour
+        self.title_colour = title_colour
 
     def on_begin_draw(self, word_to_values):
         """Handle any set up required before drawing the word cloud.
@@ -96,10 +104,10 @@ class VisualWordCloud:
         """Render the word cloud to a temporary image and show it using default system viewer.
 
         :param title: Optional title to display at the top-left of the image."""
-        image = Image.new("RGBA", (800, 800), "#000000ff")
+        image = Image.new("RGBA", (800, 800), self.colour_selector.background_colour)
         for visual_word in self.visual_words:
             visual_word.draw_into(image)
-        self._draw_text_into(image, title, (20, 20), 26, "#666666")
+        self._draw_text_into(image, title, (20, 20), 26, self.colour_selector.title_colour)
         ImageShow.show(image)
 
     @staticmethod
