@@ -16,6 +16,7 @@ def test_word_cloud():
     print(word_to_occurrence)
 
     colour_selector = RandomColourSelector()
+    # colour_selector = RandomColourSelector(background_colour=(255, 0, 0), title_colour=(0, 255, 0))
     word_cloud = VisualWordCloud(word_to_occurrence, colour_selector)
     for visual_word in word_cloud.visual_words:
         print(visual_word)
