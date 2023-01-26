@@ -21,7 +21,7 @@ class QuantizedColourSelector(ColourSelector):
     """Apply colour based on a user provided list."""
 
     def __init__(self, colour_list):
-        super().__init__(background_colour=(255, 255, 255), title_colour=(0, 0, 0))
+        super().__init__(background_colour=(192, 192, 192), title_colour=colour_list[0])
         self.colour_list = colour_list
         self.max_value = 0
 
@@ -38,20 +38,20 @@ class QuantizedColourSelector(ColourSelector):
     def select_colour(self, word, value, word_to_values):
         assert len(self.colour_list) > 0
 
-        for i in range(len(self.colour_list)):
-            if value <= i + 1:
-                return self.colour_list[len(self.colour_list) - 1 - i]
-        return self.colour_list[-1]
+        # for i in range(len(self.colour_list)):
+        #     if value <= i + 1:
+        #         return self.colour_list[len(self.colour_list) - 1 - i]
+        # return self.colour_list[-1]
 
         # Erica's original version with default of white:
-        # if self.colour_list:
-        #     i = 1
-        #     for colour in self.colour_list:
-        #         if value <= self.max_value / len(self.colour_list) * i:
-        #             return self.colour_list[len(self.colour_list) - i]
-        #         i += 1
-        #     return self.colour_list[-1]
-        # red = 255
-        # green = 255
-        # blue = 255
-        # return f"rgb({red},{green},{blue})"
+        if self.colour_list:
+            i = 1
+            for colour in self.colour_list:
+                if value <= self.max_value / len(self.colour_list) * i:
+                    return self.colour_list[len(self.colour_list) - i]
+                i += 1
+            return self.colour_list[-1]
+        red = 255
+        green = 255
+        blue = 255
+        return f"rgb({red},{green},{blue})"
