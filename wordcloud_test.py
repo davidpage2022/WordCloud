@@ -39,10 +39,11 @@ def test_word_cloud():
     """Test word cloud logic tools."""
     if MODEL == "occurrence" or MODEL == "valued-words" or MODEL == "valued-characters" or MODEL == "length" or \
             MODEL == "reversed" or MODEL == "alphabetical":
-        text = TEST_STRING_1
-        # text = read_file(TEST_FILE)
+        # text = TEST_STRING_1
+        text = read_file(TEST_FILE)
     elif MODEL == "phrase":
-        text = TEST_STRING_2
+        # text = TEST_STRING_2
+        text = read_file(TEST_FILE)
     elif MODEL == "multiple-choice":
         text = MULTIPLE_CHOICE_OPTIONS + MULTIPLE_CHOICE_RESPONSES
     else:  # For testing acronym model
@@ -51,7 +52,7 @@ def test_word_cloud():
     # word_to_count = TEST_WORD_TO_COUNT
     print(word_to_count)
 
-    colour_selector = QuantizedColourSelector(test_wordcloud_usercolour())
+    colour_selector = QuantizedColourSelector(select_colour(word_to_count))
     # colour_selector = RandomColourSelector(background_colour=(0, 183, 235), title_colour=(255, 255, 255))
 
     word_cloud = VisualWordCloud(word_to_count, colour_selector)
@@ -60,7 +61,7 @@ def test_word_cloud():
     word_cloud.render_to_image(title=f"Page's Panoramic Paragraph\n({MODEL.title()} Model)")
 
 
-def test_wordcloud_usercolour():
+def select_colour(dictionary):
     if COLOUR_MODEL == "rainbow":  # Provides a list of RGB codes for the colours of the rainbow
         colours = [(255, 0, 0), (255, 127, 0), (255, 255, 0), (0, 255, 0), (0, 0, 255), (75, 0, 130),
                    (148, 0, 211)]
@@ -89,6 +90,15 @@ def test_wordcloud_usercolour():
             red = red + red_step
             green = green + green_step
             blue = blue + blue_step
+            colour = (red, green, blue)
+            colours.append(colour)
+        return colours
+    else:  # Provides a list of random colours the length of the dictionary provided
+        colours = []
+        for i in range(len(dictionary)):
+            red = randint(0, 255)
+            green = randint(0, 255)
+            blue = randint(0, 255)
             colour = (red, green, blue)
             colours.append(colour)
         return colours

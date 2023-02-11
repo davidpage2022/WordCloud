@@ -47,7 +47,7 @@ def word_cloud_logic(source_text, model="occurrence"):
 
 def read_file(filename):
     """Read a text file."""
-    in_file = open(filename, 'r')
+    in_file = open(filename, encoding="utf8")
     raw_text = in_file.read()
     in_file.close()
     return raw_text
